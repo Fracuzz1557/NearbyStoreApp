@@ -31,98 +31,101 @@ import com.example.nearbyapp.Activites.Dashboard.Results.ResultsActivity
 import com.example.nearbyapp.Domain.CategoryModel
 import com.example.nearbyapp.R
 
-
 @Composable
 fun CategorySection(
-    categories:SnapshotStateList<CategoryModel>,showCategoryLoading:Boolean
-){
-    Text( text = "Explorer Stores",
+    categories: SnapshotStateList<CategoryModel>,
+    showCategoryLoading: Boolean
+) {
+    // ✅ CORREGIDO: Texto ahora visible desde el inicio
+    Text(
+        text = "Explorar Tiendas",
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold,
+        color = colorResource(R.color.darkBrown), // Color visible
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .padding(top = 24.dp)
     )
 
-    if(showCategoryLoading){
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp),
+    if (showCategoryLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             CircularProgressIndicator()
         }
-    }else{
-            val rows=categories.chunked(3)
-            val context= LocalContext.current
+    } else {
+        val rows = categories.chunked(3)
+        val context = LocalContext.current
 
-            Column (modifier = Modifier
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-            ){
-                rows.forEach { row->
-                    Row (modifier = Modifier
+        ) {
+            rows.forEach { row ->
+                Row(
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ){
-                        row.forEachIndexed{index, categoryModel ->
-                            CategoryItem(
-                                category = categoryModel,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(horizontal = 8.dp),
-                                onItemClick = {
-                                val intent= Intent(context,ResultsActivity::class.java).apply {
-                                    putExtra("id",categoryModel.Id.toString())
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    row.forEachIndexed { index, categoryModel ->
+                        CategoryItem(
+                            category = categoryModel,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 8.dp),
+                            onItemClick = {
+                                val intent = Intent(context, ResultsActivity::class.java).apply {
+                                    putExtra("id", categoryModel.Id.toString())
                                     putExtra("title", categoryModel.Name)
                                 }
-                                    startActivity(context,intent, null)
-                                }
-                            )
-                        }
+                                startActivity(context, intent, null)
+                            }
+                        )
                     }
-                    if(row.size<3){
-                        repeat(3-row.size){
-                            Spacer(Modifier.weight(1f))
-                        }
+                }
+                if (row.size < 3) {
+                    repeat(3 - row.size) {
+                        Spacer(Modifier.weight(1f))
                     }
                 }
             }
+        }
     }
-
 }
-
 
 @Composable
 fun CategoryItem(
-    category:CategoryModel,
-    modifier: Modifier=Modifier,
-    onItemClick:()->Unit
-){
-    Column (
+    category: CategoryModel,
+    modifier: Modifier = Modifier,
+    onItemClick: () -> Unit
+) {
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .background(
                 color = colorResource(R.color.white),
                 shape = RoundedCornerShape(13.dp)
             )
-            .clickable (onClick = onItemClick)
+            .clickable(onClick = onItemClick)
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
+    ) {
         AsyncImage(
             model = category.ImagePath,
             contentDescription = null,
-            modifier=Modifier.size(65.dp)
+            modifier = Modifier.size(65.dp)
         )
         Text(
-            text=category.Name,
+            text = category.Name,
             color = Color.Black,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top=8.dp)
+            modifier = Modifier.padding(top = 8.dp)
         )
     }
 }

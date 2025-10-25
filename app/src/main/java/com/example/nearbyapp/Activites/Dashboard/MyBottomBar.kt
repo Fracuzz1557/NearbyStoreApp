@@ -1,6 +1,6 @@
 package com.example.nearbyapp.Activites.Dashboard
 
-import android.widget.Toast
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,45 +19,76 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.nearbyapp.Activites.Favorites.FavoritesActivity
+import com.example.nearbyapp.Activites.Profile.ProfileActivity
 import com.example.nearbyapp.R
 
 @Composable
 @Preview
-fun MyBottomBar(){
-    val bottomMenuItemsList= prepareBottomMenu()
-    val context= LocalContext.current
+fun MyBottomBar() {
+    val bottomMenuItemsList = prepareBottomMenu()
+    val context = LocalContext.current
     var selected by remember { mutableStateOf("Inicio") }
 
     BottomAppBar(
         backgroundColor = colorResource(R.color.white),
         elevation = 3.dp
     ) {
-        bottomMenuItemsList.forEach { bottomMenuItems->
+        bottomMenuItemsList.forEach { bottomMenuItem ->
             BottomNavigationItem(
-                selected=(selected==bottomMenuItems.label),
+                selected = (selected == bottomMenuItem.label),
                 onClick = {
-                 selected=bottomMenuItems.label
-                     Toast.makeText(context, bottomMenuItems.label,Toast.LENGTH_SHORT).show()
-                }, icon = {
-                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                     Icon(painter = bottomMenuItems.icon,
-                         contentDescription = null,
-                         tint = colorResource(R.color.darkBrown),
-                         modifier = Modifier
-                             .padding(top=8.dp)
-                             .size(20.dp)
-                         )
-                     Text(
-                         text = bottomMenuItems.label,
-                         fontSize = 12.sp,
-                         color = colorResource(R.color.darkBrown),
-                         modifier = Modifier.padding(top = 8.dp)
+                    selected = bottomMenuItem.label
 
-                     )
-                 }
+                    when (bottomMenuItem.label) {
+                        "Inicio" -> {
+                            // Ya estamos en MainActivity
+                        }
+                        "Ayuda" -> {
+                            android.widget.Toast.makeText(
+                                context,
+                                "Ayuda: Contacta a soporte@nearbystore.pe",
+                                android.widget.Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        "Favoritos" -> {
+                            context.startActivity(Intent(context, FavoritesActivity::class.java))
+                        }
+                        "Perfil" -> {
+                            context.startActivity(Intent(context, ProfileActivity::class.java))
+                        }
+                    }
+                },
+                icon = {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    ) {
+                        Icon(
+                            painter = bottomMenuItem.icon,
+                            contentDescription = bottomMenuItem.label,
+                            tint = if (selected == bottomMenuItem.label)
+                                colorResource(R.color.blue)
+                            else
+                                colorResource(R.color.darkBrown),
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Text(
+                            text = bottomMenuItem.label,
+                            fontSize = 11.sp,
+                            color = if (selected == bottomMenuItem.label)
+                                colorResource(R.color.blue)
+                            else
+                                colorResource(R.color.darkBrown),
+                            modifier = Modifier.padding(top = 4.dp),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             )
         }
@@ -65,16 +96,17 @@ fun MyBottomBar(){
 }
 
 data class BottomMenuItem(
-    val label:String,val icon:Painter
+    val label: String,
+    val icon: Painter
 )
 
 @Composable
-fun prepareBottomMenu():List<BottomMenuItem>{
-    val bottomMenuItemList=arrayListOf<BottomMenuItem>()
+fun prepareBottomMenu(): List<BottomMenuItem> {
+    val bottomMenuItemList = arrayListOf<BottomMenuItem>()
 
     bottomMenuItemList.add(BottomMenuItem(label = "Inicio", icon = painterResource(R.drawable.btn_1)))
     bottomMenuItemList.add(BottomMenuItem(label = "Ayuda", icon = painterResource(R.drawable.btn_2)))
-    bottomMenuItemList.add(BottomMenuItem(label = "Lista de deseos", icon = painterResource(R.drawable.btn_3)))
+    bottomMenuItemList.add(BottomMenuItem(label = "Favoritos", icon = painterResource(R.drawable.btn_3)))
     bottomMenuItemList.add(BottomMenuItem(label = "Perfil", icon = painterResource(R.drawable.btn_4)))
 
     return bottomMenuItemList

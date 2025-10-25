@@ -4,16 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -31,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
@@ -44,9 +34,9 @@ import com.example.nearbyapp.R
 fun PopularSection(list: SnapshotStateList<StoreModel>, showPopularLoading: Boolean) {
     Row(
         Modifier
-            .padding(horizontal = 16.dp).padding(top = 16.dp)
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp)
     ) {
-
         Text(
             text = "Tiendas Populares",
             color = Color.Black,
@@ -58,81 +48,84 @@ fun PopularSection(list: SnapshotStateList<StoreModel>, showPopularLoading: Bool
             text = "Ver todo",
             color = Color.Black,
             fontSize = 16.sp,
-
             style = TextStyle(textDecoration = TextDecoration.Underline)
         )
     }
 
-    if(showPopularLoading){
+    if (showPopularLoading) {
         Box(
             Modifier
                 .fillMaxWidth()
                 .height(100.dp),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             CircularProgressIndicator()
         }
-    }else{
-            LazyRow (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp)
-            ){
-                items(list.size){index ->
-                    ItemsPopular(item=list[index])
-                }
+    } else {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp)
+        ) {
+            items(list.size) { index ->
+                ItemsPopular(item = list[index])
             }
+        }
     }
 }
 
 @Composable
 fun ItemsPopular(item: StoreModel) {
-    val context= LocalContext.current
+    val context = LocalContext.current
 
-    Column (
+    Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
-            .wrapContentSize()
+            .width(180.dp) // ✅ Ancho fijo para que el texto no se corte
             .background(Color.White, shape = RoundedCornerShape(10.dp))
             .padding(8.dp)
             .clickable {
-                val intent= Intent(context, MapActivity::class.java).apply {
+                val intent = Intent(context, MapActivity::class.java).apply {
                     putExtra("object", item)
                 }
                 startActivity(context, intent, null)
             }
-    ){
+    ) {
         AsyncImage(
             model = item.ImagePath,
             contentDescription = null,
             modifier = Modifier
-                .size(135.dp, 90.dp)
+                .fillMaxWidth()
+                .height(90.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(colorResource(R.color.grey), shape = RoundedCornerShape(10.dp)),
             contentScale = ContentScale.Crop
         )
+
+        // ✅ Texto completo sin cortar
         Text(
-            text=item.Title,
+            text = item.Title,
             color = Color.Black,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top=8.dp)
+            maxLines = 2, // Permitir 2 líneas
+            modifier = Modifier.padding(top = 8.dp)
         )
+
         Row(
-            Modifier.padding(top=8.dp)
+            Modifier.padding(top = 8.dp)
         ) {
-            Image(painter = painterResource(R.drawable.location),contentDescription = null)
+            Image(
+                painter = painterResource(R.drawable.location),
+                contentDescription = null
+            )
             Text(
-                text=item.ShortAddress,
+                text = item.ShortAddress,
                 color = Color.Black,
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start =8.dp)
+                maxLines = 2, // Permitir 2 líneas
+                modifier = Modifier.padding(start = 4.dp)
             )
         }
     }

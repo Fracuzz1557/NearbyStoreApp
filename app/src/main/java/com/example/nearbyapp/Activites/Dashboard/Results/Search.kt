@@ -1,21 +1,15 @@
 package com.example.nearbyapp.Activites.Dashboard.Results
 
-
-
-
-
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,42 +19,49 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nearbyapp.R
 
-
 @Composable
 @Preview
-fun Search(){
+fun Search() {
     var text by rememberSaveable { mutableStateOf("") }
+
     TextField(
-        value=text,
-        onValueChange={text=it},
-        label={
-            Text(text="Encuentra historias, restaurantes, productos...",
-                fontSize = 16.sp,
-                color = Color.Black
-                )
-        }, shape = RoundedCornerShape(10.dp),
-        leadingIcon = {
-            Image(painter = painterResource(R.drawable.search_icon),
-                contentDescription = null,
-                modifier = Modifier.size(22.dp)
-                )
+        value = text,
+        onValueChange = { text = it },
+        label = {
+            Text(
+                text = "Encuentra historias, restaurantes...",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        shape = RoundedCornerShape(12.dp),
+        leadingIcon = {
+            Image(
+                painter = painterResource(R.drawable.search_icon),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
             backgroundColor = colorResource(R.color.white),
-            focusedBorderColor = Color.Transparent,
-            unfocusedLabelColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
             textColor = Color.DarkGray,
-            unfocusedBorderColor = Color.Transparent
+            cursorColor = colorResource(R.color.blue)
         ),
+        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .height(50.dp)
-            .background(colorResource(R.color.grey), CircleShape)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .height(56.dp)
     )
 }

@@ -22,35 +22,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.nearbyapp.Domain.BannerModel
 import com.example.nearbyapp.Domain.CategoryModel
 import com.example.nearbyapp.R
-import com.example.nearbyapp.Repository.DashboardRepository
+import com.example.nearbyapp.ViewModel.DashboardViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-          DashboardScreen()
+            DashboardScreen()
         }
     }
 }
 
 @Composable
 @Preview
-fun DashboardScreen(){
-    val systemUiController= rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = colorResource(id=R.color.blue))
+fun DashboardScreen() {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(color = colorResource(id = R.color.blue))
 
-    val viewModel=DashboardRepository()
+    // ✅ CORREGIDO: Ahora usa DashboardViewModel
+    val viewModel = DashboardViewModel()
 
-    val categories= remember { mutableStateListOf<CategoryModel>() }
-    val banners= remember { mutableStateListOf<BannerModel>() }
+    val categories = remember { mutableStateListOf<CategoryModel>() }
+    val banners = remember { mutableStateListOf<BannerModel>() }
 
     var showCategoryLoading by remember { mutableStateOf(true) }
     var showBannerLoading by remember { mutableStateOf(true) }
 
-    LaunchedEffect (Unit){
+    LaunchedEffect(Unit) {
         viewModel.loadCategory().observeForever {
             categories.clear()
             categories.addAll(it)
@@ -59,29 +59,25 @@ fun DashboardScreen(){
     }
 
     LaunchedEffect(Unit) {
-        viewModel.loadBanner().observeForever {
+        viewModel.loadBanners().observeForever {
             banners.clear()
             banners.addAll(it)
-            showBannerLoading=false
+            showBannerLoading = false
         }
     }
 
-
     Scaffold(
         bottomBar = { MyBottomBar() }
-    ){paddingValues ->
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colorResource(R.color.lightBlue))
                 .padding(paddingValues = paddingValues)
         ) {
-
             item { TopBar() }
-            item { CategorySection(categories,showCategoryLoading) }
-            item { Banner(banners,showBannerLoading) }
+            item { CategorySection(categories, showCategoryLoading) }
+            item { Banner(banners, showBannerLoading) }
         }
-
     }
 }
-

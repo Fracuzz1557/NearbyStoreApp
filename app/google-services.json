@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "313947302690",
+    "firebase_url": "https://nearbyapp1-7ba30-default-rtdb.firebaseio.com",
     "project_id": "nearbyapp1-7ba30",
     "storage_bucket": "nearbyapp1-7ba30.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.nearbyapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "313947302690-nomg9j41j3c0nol8o3no3tk3q46ab4dp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nearbyapp",
+            "certificate_hash": "9c25e0c071e76d8d077820837e96baf2d64acbdd"
+          }
+        },
+        {
+          "client_id": "313947302690-7n3jekekiitirs7drfu7klv75ova0eut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAS92beEUQ_44_buhK-ERUBT3kcaG5FLy8"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313947302690-7n3jekekiitirs7drfu7klv75ova0eut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

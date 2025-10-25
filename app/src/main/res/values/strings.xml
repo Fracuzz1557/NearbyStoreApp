@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">NearbyApp</string>
+    <string name="app_name">Nearby Store</string>
+
+    <!-- Dashboard -->
+    <string name="greeting_morning">Buenos días, %1$s</string>
+    <string name="what_will_you_do">¿qué harás hoy?</string>
+    <string name="explore_stores">Explorar Tiendas</string>
+    <string name="wallet">Billetera</string>
+    <string name="reward">Premio</string>
+    <string name="balance">Balance</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_help">Ayuda</string>
+    <string name="nav_wishlist">Lista de deseos</string>
+    <string name="nav_profile">Perfil</string>
+
+    <!-- Stores -->
+    <string name="popular_stores">Tiendas Populares</string>
+    <string name="nearby_stores">Tiendas Cercanas</string>
+    <string name="see_all">Ver todo</string>
+    <string name="call_store">Llamar a la tienda</string>
+    <string name="phone_not_available">Número de teléfono no disponible</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Encuentra historias, restaurantes, productos…</string>
+
+    <!-- Errors -->
+    <string name="error_loading_data">Error al cargar los datos</string>
+    <string name="error_no_internet">Sin conexión a internet</string>
+
+    <!-- Default web client id (Firebase) -->
+    <string name="default_web_client_id" translatable="false">313947302690-7n3jvlnug57gk0rqg9j21ghtj3vnm8pr.apps.googleusercontent.com</string>
 </resources>

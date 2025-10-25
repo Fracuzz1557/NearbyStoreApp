@@ -4,20 +4,8 @@ import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -34,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
@@ -47,9 +34,9 @@ import com.example.nearbyapp.R
 fun NearestSection(list: SnapshotStateList<StoreModel>, showPopularLoading: Boolean) {
     Row(
         Modifier
-            .padding(horizontal = 16.dp).padding(top = 16.dp)
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp)
     ) {
-
         Text(
             text = "Tiendas Cercanas",
             color = Color.Black,
@@ -61,39 +48,37 @@ fun NearestSection(list: SnapshotStateList<StoreModel>, showPopularLoading: Bool
             text = "Ver todo",
             color = Color.Black,
             fontSize = 16.sp,
-
             style = TextStyle(textDecoration = TextDecoration.Underline)
         )
     }
 
-    if(showPopularLoading){
+    if (showPopularLoading) {
         Box(
             Modifier
                 .fillMaxWidth()
                 .height(100.dp),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             CircularProgressIndicator()
         }
-    }else{
-            LazyColumn (
-                modifier = Modifier
-                    .height(400.dp)
-                    .fillMaxWidth()
-                ,
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp)
-            ){
-                items(list.size){index ->
-                    ItemsNearest(item=list[index])
-                }
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .height(400.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp)
+        ) {
+            items(list.size) { index ->
+                ItemsNearest(item = list[index])
             }
+        }
     }
 }
 
 @Composable
 fun ItemsNearest(item: StoreModel) {
-    val context= LocalContext.current
+    val context = LocalContext.current
 
     Row(
         modifier = Modifier
@@ -102,53 +87,61 @@ fun ItemsNearest(item: StoreModel) {
             .wrapContentHeight()
             .padding(8.dp)
             .clickable {
-                val intent= Intent(context, MapActivity::class.java).apply {
+                val intent = Intent(context, MapActivity::class.java).apply {
                     putExtra("object", item)
                 }
                 startActivity(context, intent, null)
             }
     ) {
-        StoreImage(item=item)
-        StoreDetail(item=item)
+        StoreImage(item = item)
+        StoreDetail(item = item)
     }
-
 }
 
 @Composable
 fun StoreDetail(item: StoreModel) {
-    Column (modifier = Modifier
-        .fillMaxHeight()
-        .padding(start = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(start = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        // ✅ Texto completo sin maxLines=1
         Text(
-            text= item.Title,
+            text = item.Title,
             color = Color.Black,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
-            maxLines = 1
+            maxLines = 2 // Permitir 2 líneas
         )
+
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(painter = painterResource(R.drawable.location),contentDescription = null)
+            Image(
+                painter = painterResource(R.drawable.location),
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
             Text(
                 text = item.Address,
                 color = Color.Black,
                 fontSize = 12.sp,
-                maxLines = 1,
+                maxLines = 2, // Permitir 2 líneas
                 modifier = Modifier.padding(start = 4.dp)
             )
         }
+
         Text(
-            text= item.Activity,
+            text = item.Activity,
             color = Color.Black,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,
-            maxLines = 1
+            maxLines = 2
         )
+
         Text(
-            text= "Hora: ${item.Hours}",
+            text = "Hora: ${item.Hours}",
             color = Color.Black,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,
             maxLines = 1
         )
@@ -165,5 +158,5 @@ fun StoreImage(item: StoreModel) {
             .clip(RoundedCornerShape(10.dp))
             .background(colorResource(R.color.grey), shape = RoundedCornerShape(10.dp)),
         contentScale = ContentScale.Crop
-        )
+    )
 }

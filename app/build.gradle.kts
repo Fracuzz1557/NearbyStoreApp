@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,6 +53,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,6 +61,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Existentes
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
     implementation("com.google.accompanist:accompanist-pager:0.28.0")
@@ -68,9 +70,16 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
     implementation("com.github.bumptech.glide:glide:4.13.0")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.1")
-    implementation ("androidx.compose.foundation:foundation:1.7.8")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.1")
+    implementation("androidx.compose.foundation:foundation:1.7.8")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
-    implementation ("com.google.maps.android:maps-compose:2.0.0")
-    implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation("com.google.maps.android:maps-compose:2.0.0")
+    implementation("com.google.android.gms:play-services-maps:17.0.1")
+
+    // ✅ NUEVAS: Firebase Authentication y Google Sign-In
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // ✅ NUEVA: Lifecycle ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 }
